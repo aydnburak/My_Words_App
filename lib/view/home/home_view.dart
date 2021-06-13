@@ -1,9 +1,11 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:my_words_app/components/answers.dart';
 import 'package:my_words_app/components/next_button.dart';
 import 'package:my_words_app/constants/colors.dart';
+import 'package:my_words_app/controllers/auth_controller.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class HomeView extends StatelessWidget {

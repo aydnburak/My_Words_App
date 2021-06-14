@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:my_words_app/components/answers.dart';
 import 'package:my_words_app/components/next_button.dart';
 import 'package:my_words_app/constants/colors.dart';
-import 'package:my_words_app/controllers/auth_controller.dart';
+import 'package:my_words_app/controllers/words_controller.dart';
 import 'package:toggle_switch/toggle_switch.dart';
 
 class HomeView extends StatelessWidget {
@@ -15,34 +15,44 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
-    return Padding(
-      padding: EdgeInsets.symmetric(vertical: height * 0.05, horizontal: width * 0.05),
-      child: Column(
-        children: <Widget>[
-          _buildSetting(height, width),
-          _buildQuestionDetail(height),
-          Answers(margin: height * 0.025, height: height * 0.30),
-          SizedBox(height: height * 0.07),
-          _buildNext(height)
-        ],
-      ),
-    );
+    final WordsController _wordsController = Get.find();
+
+    return Obx(() {
+      return _wordsController.isQuestion.value == true
+          ? Padding(
+              padding: EdgeInsets.symmetric(vertical: height * 0.05, horizontal: width * 0.05),
+              child: Column(
+                children: <Widget>[
+                  _buildSetting(height, width),
+                  _buildQuestionDetail(height),
+                  Answers(margin: height * 0.025, height: height * 0.30),
+                  SizedBox(height: height * 0.07),
+                  _buildNext(height)
+                ],
+              ),
+            )
+          : Center(
+              child: CircularProgressIndicator(),
+            );
+    });
   }
 
   Widget _buildNext(double height) {
+    final WordsController _wordsController = Get.find();
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: <Widget>[
         NextButton(
             height: height * 0.11,
             onTap: () {
-              print("next click");
+              _wordsController.getQuestion();
             })
       ],
     );
   }
 
   Widget _buildQuestionDetail(double height) {
+    final WordsController _wordsController = Get.find();
     return Container(
       height: height * 0.25,
       child: Column(
@@ -52,12 +62,12 @@ class HomeView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               AutoSizeText(
-                "Correct Score: 0",
+                "Correct Score: ${_wordsController.correctScore.value}",
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.white),
               ),
               AutoSizeText(
-                "Wrong Score: 0",
+                "Wrong Score: ${_wordsController.wrongScore.value}",
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.white),
               ),
@@ -65,7 +75,7 @@ class HomeView extends StatelessWidget {
           ),
           SizedBox(height: height * 0.05),
           AutoSizeText(
-            "What does the word 'tatlı' mean in English?",
+            "What does the word '${_wordsController.question.question.tr}' mean in English?",
             textAlign: TextAlign.center,
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.white),
           ),
@@ -75,6 +85,7 @@ class HomeView extends StatelessWidget {
   }
 
   Widget _buildSetting(double height, double width) {
+    final WordsController _wordsController = Get.find();
     return Container(
       height: height * 0.1,
       child: Row(
@@ -82,11 +93,9 @@ class HomeView extends StatelessWidget {
         children: <Widget>[
           IconButton(
             icon: Icon(Icons.refresh, color: AppColors.white),
-            onPressed: () {},
-          ),
-          Text(
-            "Question 1",
-            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: AppColors.white),
+            onPressed: () {
+              _wordsController.testReset();
+            },
           ),
           ToggleSwitch(
             minHeight: height * 0.05,

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:my_words_app/constants/colors.dart';
 import 'package:my_words_app/controllers/auth_controller.dart';
 import 'package:my_words_app/controllers/my_page_controller.dart';
+import 'package:my_words_app/controllers/words_controller.dart';
 
 class ProfilView extends StatelessWidget {
   ProfilView({Key? key});
@@ -11,6 +12,7 @@ class ProfilView extends StatelessWidget {
   Widget build(BuildContext context) {
     final AuthController _authController = Get.find();
     final MyPageController _myPageController = Get.find();
+    final WordsController _wordsController = Get.find();
     final height = MediaQuery.of(context).size.height;
     final width = MediaQuery.of(context).size.width;
     return Column(
@@ -33,7 +35,7 @@ class ProfilView extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        SizedBox(height: height * 0.02),
+        SizedBox(height: height * 0.1),
         Container(
           height: height * 0.05,
           width: width * 0.7,
@@ -43,29 +45,15 @@ class ProfilView extends StatelessWidget {
             borderRadius: BorderRadius.circular(30),
           ),
           child: Center(
-            child: Text(
-              "All My Words: 524",
-              style: TextStyle(fontSize: 20),
-            ),
+            child: Obx(() {
+              return Text(
+                "All My Words: ${_wordsController.allWords.length.toString()}",
+                style: TextStyle(fontSize: 20),
+              );
+            }),
           ),
         ),
-        SizedBox(height: height * 0.02),
-        Container(
-          margin: EdgeInsets.all(10),
-          height: height * 0.05,
-          width: width * 0.7,
-          decoration: BoxDecoration(
-            color: AppColors.white,
-            borderRadius: BorderRadius.circular(30),
-          ),
-          child: Center(
-            child: Text(
-              "My Last Words: 10",
-              style: TextStyle(fontSize: 20),
-            ),
-          ),
-        ),
-        SizedBox(height: height * 0.02),
+        SizedBox(height: height * 0.1),
         ElevatedButton(
             onPressed: () async {
               await _authController.singOut();

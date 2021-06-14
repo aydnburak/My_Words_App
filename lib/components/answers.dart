@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:my_words_app/components/answer_button.dart';
 import 'package:my_words_app/constants/colors.dart';
+import 'package:my_words_app/controllers/words_controller.dart';
 
 class Answers extends StatelessWidget {
   final double height;
@@ -10,40 +12,23 @@ class Answers extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final WordsController _wordsController = Get.find();
     return Container(
       height: height,
       child: Column(
         children: <Widget>[
           Expanded(
-            child: Row(children: <Widget>[
-              AnswerButton(
-                  text: "Cevabım",
-                  textColor: AppColors.white,
-                  margin: margin,
-                  backgroundColor: AppColors.red,
-                  onTap: () {}),
-              AnswerButton(
-                  text: "Cevabım",
-                  textColor: AppColors.black,
-                  margin: margin,
-                  backgroundColor: AppColors.white,
-                  onTap: () {}),
-            ]),
+            child: Row(
+              children: <Widget>[
+                AnswerButton(margin: margin, index: 0),
+                AnswerButton(margin: margin, index: 1),
+              ],
+            ),
           ),
           Expanded(
             child: Row(children: <Widget>[
-              AnswerButton(
-                  text: "Cevabım",
-                  textColor: AppColors.black,
-                  margin: margin,
-                  backgroundColor: AppColors.white,
-                  onTap: () {}),
-              AnswerButton(
-                  text: "Cevabım",
-                  textColor: AppColors.white,
-                  margin: margin,
-                  backgroundColor: AppColors.green,
-                  onTap: () {}),
+              AnswerButton(margin: margin, index: 2),
+              AnswerButton(margin: margin, index: 3),
             ]),
           ),
         ],

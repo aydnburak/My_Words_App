@@ -5,6 +5,7 @@ import 'package:my_words_app/components/my_background.dart';
 import 'package:my_words_app/constants/colors.dart';
 import 'package:my_words_app/controllers/auth_controller.dart';
 import 'package:my_words_app/controllers/my_page_controller.dart';
+import 'package:my_words_app/controllers/words_controller.dart';
 import 'package:my_words_app/view/login/login_view.dart';
 import 'package:my_words_app/view/splash/splash_view.dart';
 
@@ -24,6 +25,8 @@ class LoadingView extends StatelessWidget {
   }
 
   Scaffold _buildHome() {
+    final WordsController _wordsController =
+        Get.put(WordsController(userID: _authController.myUser!.userID));
     return Scaffold(
       body: MyBackGround(
         child: Obx(() => _pageController.page),
